@@ -21,3 +21,13 @@
   THE SOFTWARE.
 
   Both turbo.css and turbo.js are required.
+
+  List of modules included in turbo.js
+  - Accordion
+  - Effects
+  - Lightbox
+  - Ajax
+  - Scrim
+  - Notification
+  - Tooltip
+  - Activity Indicator
