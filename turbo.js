@@ -662,7 +662,8 @@ Turbo.Notification = function (message, opts) {
   opts = Turbo.defaults(opts, {
     id: (new Date()).getTime(),
     timeout: 15000,
-    type: 'neutral'
+    type: 'neutral',
+    onClick: false
   });
   opts.id = 'trN' + opts.id;
 
@@ -725,7 +726,17 @@ Turbo.Notification = function (message, opts) {
       this.note.style.display = 'none';
       this.note.innerHTML = message;
 
-      this.note.onmouseup = Turbo.attach(this.kill, this);
+      if (opts.onClick) {
+        if (typeof(opts.onClick) === "string") {
+          this.note.onmouseup = function () {
+            location.href = opts.onClick;
+          }
+        } else {
+          this.note.onmouseup = opts.onClick;
+        }
+      } else {
+        this.note.onmouseup = Turbo.attach(this.kill, this);
+      }
 
       this.note.style.display = 'block';
       this.note.style.top = "-" + this.note.offsetHeight + "px";
