@@ -3,7 +3,8 @@
 /*
   The MIT License
 
-  Copyright (c) 2010 Joshua Perez http://www.7bc7.com
+  Copyright (c) 2010 Joshua Perez http://goatslacker.github.com/turbojs
+  Code: http://www.github.com/goatslacker/turbojs
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
