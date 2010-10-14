@@ -27,7 +27,7 @@
 
 /* turbo.js */
 var Turbo = { 
-  version: '1.5.6',
+  version: '1.5.7',
   $_SERVER: location.protocol + "//" + location.host,
   mouse: { x: 0, y: 0, offsetX: 0, offsetY: 0 },
   browser: {
@@ -43,7 +43,36 @@ var Turbo = {
     carousel: { },
     accordion: { },
     tooltip: { },
-    notifications: { },
+    notifications: { }
+  },
+  onLoad: [],
+
+  initialize: function (args) {
+
+    // TODO move & test with IE7
+    window.onload = function () {
+      for (var i = 0; i < Turbo.onLoad.length; i = i + 1) {
+        Turbo.onLoad[i]();
+      }
+    }
+
+    if (document.readyState === 'complete') {
+      return true;
+    } else {
+      this.onLoad.push(function () {
+        var params = [], i = 0;
+
+        if (args.length > 0) {
+          for (i = 0; i < args.length; i = i + 1) {
+            params.push(args[i]);
+          }
+        }
+
+        args.callee.apply(this, params);
+      });
+
+      return false;
+    }
   },
 
 /*
@@ -369,6 +398,10 @@ Turbo.Animation = {
   },
 
   start: function (element, style, opts, callback) {
+    if (!Turbo.initialize(arguments)) {
+      return;
+    }
+
     element = (typeof(element) === "string") ? Turbo.$(element) : element;
 
     opts = Turbo.defaults(opts, {
@@ -476,6 +509,10 @@ Turbo.Animation = {
   @return {Object} Callback if declared
 */
 Turbo.Ajax = function (url, parameters, callback) {
+  if (!Turbo.initialize(arguments)) {
+    return;
+  }
+
   this.http = false;
   this.url = (url.indexOf("http://") !== -1) ? url : Turbo.$_SERVER + '/' + url;
 
@@ -660,6 +697,10 @@ Turbo.Scrim = {
 */
 // TODO needs testing and better performance
 Turbo.Notification = function (message, opts) {
+  if (!Turbo.initialize(arguments)) {
+    return;
+  }
+
   opts = Turbo.defaults(opts, {
     id: (new Date()).getTime(),
     timeout: 15000,
@@ -776,6 +817,9 @@ Turbo.Lightbox = {
   },
 
   show: function (url, callback) {
+    if (!Turbo.initialize(arguments)) {
+      return;
+    }
 
     if (this.isActive) {
       return this.isActive;
@@ -878,6 +922,10 @@ Turbo.Lightbox = {
   @param {Object} o - Tooltip options
 */
 Turbo.Tooltip = function (element, url, o) { // TODO - add follow mouse, add hover over tooltip stay, add click events
+  if (!Turbo.initialize(arguments)) {
+    return;
+  }
+
   this.element = (typeof(element) === "string") ? Turbo.$(element) : element;
   if (Turbo.activeModules.tooltip[element.id]) {
     return false;
@@ -1028,6 +1076,10 @@ Turbo.Tooltip = function (element, url, o) { // TODO - add follow mouse, add hov
 /* accordion.js */
 // TODO horizontal
 Turbo.Accordion = function (element, toggle, content, o) {
+  if (!Turbo.initialize(arguments)) {
+    return;
+  }
+
   element = (typeof(element) === "string") ? Turbo.$(element) : element;
   if (Turbo.activeModules.accordion[element.id]) {
     return false;
